@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import Button from '@mui/material/Button';
+//import Tabs from './Component/Tabs';
 // import axios from "axios";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,6 +12,12 @@ import { DataGrid } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import PublishIcon from '@mui/icons-material/Publish';
 import logo from './logo.svg';
+import Box from '@mui/material/Box';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import PropTypes from 'prop-types';
+import Typography from '@mui/material/Typography';
+
 
 
 const getTopFive = (dataObj) => {
@@ -118,31 +125,121 @@ const Login = () => {
 	const rows = [
 	];
 
+	const [value, setValue] = useState();
+
+	const handleChange = (event, newValue) => {
+		setValue(newValue);
+	};
+
+	function TabPanel(props) {
+		const { children, value, index, ...other } = props;
+
+		return (
+			<div
+				role="tabpanel"
+				hidden={value !== index}
+				id={`simple-tabpanel-${index}`}
+				aria-labelledby={`simple-tab-${index}`}
+				{...other}
+			>
+				{value === index && (
+					<Box sx={{ p: 3 }}>
+						<Typography>{children}</Typography>
+					</Box>
+				)}
+			</div>
+		);
+	}
+
+	TabPanel.propTypes = {
+		children: PropTypes.node,
+		index: PropTypes.number.isRequired,
+		value: PropTypes.number.isRequired,
+	};
+
+	function a11yProps(index) {
+		return {
+			id: `simple-tab-${index}`,
+			'aria-controls': `simple-tabpanel-${index}`,
+		};
+	}
+
+
 	return (
 		<>
 			{success ?
-
-				<section>
-					<div style={{ textAlign: 'center' }}>
-						<h1> You are logged in!</h1>
-						<br />
-						<Button variant="contained" component="label">
-							Upload
-							<input hidden accept="image/*" multiple type="file" onChange={selectFiles} />
-						</Button>
-					</div>
-
-					{similarityData && similarityData.length && <div style={{ display: 'flex', background: 'white', margin: 20 }}>
-						<div style={{ height: 400, width: '500px', margin: 20 }}><DataGrid
-							rows={similarityData}
-							columns={columns}
-							pageSize={5}
-							rowsPerPageOptions={[5]}
-						/></div>
-						<div style={{ marginTop: 50, padding: 20 }}><img width={300} src={preview} /></div>
-
-					</div>}
-				</section>
+				<div>
+					<Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
+						<Tabs value={value} onChange={handleChange} centered>
+							<Tab label="CNN Model" {...a11yProps(0)} />
+							<Tab label="YOLO V5 Model" />
+						</Tabs>
+					</Box>
+					<TabPanel value={value} index={0}>
+						<div style={{ textAlign: 'center' }}>
+							<h1> Upload Wafer Image to detect Defect!</h1>
+							<br />
+							<Button variant="contained" component="label">
+								Upload
+								<input hidden accept="image/*" multiple type="file" onChange={selectFiles} />
+							</Button>
+							{similarityData && similarityData.length && <div style={{ display: 'flex', background: 'white', margin: 20 }}>
+								<div style={{ height: 400, width: '500px', margin: 20 }}><DataGrid
+									rows={similarityData}
+									columns={columns}
+									pageSize={5}
+									rowsPerPageOptions={[5]}
+								/></div>
+								<div style={{ marginTop: 50, padding: 20 }}><img width={300} src={preview} /></div>
+							</div>}
+						</div>
+					</TabPanel>
+				</div>
+				// <div>
+				// 	<h1>Tabs Demo</h1>
+				// 	<Tabs>
+				// 		<div label="CNN Model" style={{ textAlign: 'center' }}>
+				// 			<h1> Upload Wafer Image to detect Defect!</h1>
+				// 			<br />
+				// 			<Button variant="contained" component="label">
+				// 				Upload
+				// 				<input hidden accept="image/*" multiple type="file" onChange={selectFiles} />
+				// 			</Button>
+				// 			{similarityData && similarityData.length && <div style={{ display: 'flex', background: 'white', margin: 20 }}>
+				// 				<div style={{ height: 400, width: '500px', margin: 20 }}><DataGrid
+				// 					rows={similarityData}
+				// 					columns={columns}
+				// 					pageSize={5}
+				// 					rowsPerPageOptions={[5]}
+				// 				/></div>
+				// 				<div style={{ marginTop: 50, padding: 20 }}><img width={300} src={preview} /></div>
+				// 			</div>}
+				// 		</div>
+				// 		<div label="YOLOV5 Model">
+				// 			After 'while, <em>Crocodile</em>!
+				// 		</div>
+				// 	</Tabs>
+				// </div>
+				// <section>
+				// 	<h1> Welcome to Similarity Matching of Wafer Bin Maps</h1>
+				// 	<div style={{ textAlign: 'center' }}>
+				// 		<h1> Upload Wafer Image to detect Defect!</h1>
+				// 		<br />
+				// 		<Button variant="contained" component="label">
+				// 			Upload
+				// 			<input hidden accept="image/*" multiple type="file" onChange={selectFiles} />
+				// 		</Button>
+				// 	</div>
+				// 	{similarityData && similarityData.length && <div style={{ display: 'flex', background: 'white', margin: 20 }}>
+				// 		<div style={{ height: 400, width: '500px', margin: 20 }}><DataGrid
+				// 			rows={similarityData}
+				// 			columns={columns}
+				// 			pageSize={5}
+				// 			rowsPerPageOptions={[5]}
+				// 		/></div>
+				// 		<div style={{ marginTop: 50, padding: 20 }}><img width={300} src={preview} /></div>
+				// 	</div>}
+				// </section>
 
 
 				: (
