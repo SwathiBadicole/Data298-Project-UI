@@ -17,6 +17,15 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
+import InboxIcon from '@mui/icons-material/Inbox';
+import DraftsIcon from '@mui/icons-material/Drafts';
+import login_background from './BackGround Image/login_background.jpg'
 
 
 
@@ -164,92 +173,47 @@ const Login = () => {
 		};
 	}
 
-
 	return (
 		<>
 			{success ?
-				<div>
-					<Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
-						<Tabs value={value} onChange={handleChange} centered>
-							<Tab label="CNN Model" {...a11yProps(0)} />
-							<Tab label="YOLO V5 Model" />
-						</Tabs>
-					</Box>
-					<TabPanel value={value} index={0}>
-						<div style={{ textAlign: 'center' }}>
-							<h1> Upload Wafer Image to detect Defect!</h1>
-							<br />
-							<Button variant="contained" component="label">
-								Upload
-								<input hidden accept="image/*" multiple type="file" onChange={selectFiles} />
-							</Button>
-							{similarityData && similarityData.length && <div style={{ display: 'flex', background: 'white', margin: 20 }}>
-								<div style={{ height: 400, width: '500px', margin: 20 }}><DataGrid
-									rows={similarityData}
-									columns={columns}
-									pageSize={5}
-									rowsPerPageOptions={[5]}
-								/></div>
-								<div style={{ marginTop: 50, padding: 20 }}><img width={300} src={preview} /></div>
-							</div>}
-						</div>
-					</TabPanel>
+				<div style={{ display: 'flex' }}>
+					<div>Hello</div>
+					<div>
+						<Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
+							<Tabs value={value} onChange={handleChange} centered>
+								<Tab label="CNN Model" {...a11yProps(0)} />
+								<Tab label="YOLO V5 Model" />
+							</Tabs>
+						</Box>
+						<TabPanel value={value} index={0}>
+							<div style={{ textAlign: 'center' }}>
+								<h1> Upload Wafer Image to detect Defect!</h1>
+								<br />
+								<Button variant="contained" component="label">
+									Upload
+									<input hidden accept="image/*" multiple type="file" onChange={selectFiles} />
+								</Button>
+								{similarityData && similarityData.length && <div style={{ display: 'flex', background: 'white', margin: 20 }}>
+									<div style={{ height: 400, width: '500px', margin: 20 }}><DataGrid
+										rows={similarityData}
+										columns={columns}
+										pageSize={5}
+										rowsPerPageOptions={[5]}
+									/></div>
+									<div style={{ marginTop: 50, padding: 20 }}><img width={300} src={preview} /></div>
+								</div>}
+							</div>
+						</TabPanel>
+					</div>
 				</div>
-				// <div>
-				// 	<h1>Tabs Demo</h1>
-				// 	<Tabs>
-				// 		<div label="CNN Model" style={{ textAlign: 'center' }}>
-				// 			<h1> Upload Wafer Image to detect Defect!</h1>
-				// 			<br />
-				// 			<Button variant="contained" component="label">
-				// 				Upload
-				// 				<input hidden accept="image/*" multiple type="file" onChange={selectFiles} />
-				// 			</Button>
-				// 			{similarityData && similarityData.length && <div style={{ display: 'flex', background: 'white', margin: 20 }}>
-				// 				<div style={{ height: 400, width: '500px', margin: 20 }}><DataGrid
-				// 					rows={similarityData}
-				// 					columns={columns}
-				// 					pageSize={5}
-				// 					rowsPerPageOptions={[5]}
-				// 				/></div>
-				// 				<div style={{ marginTop: 50, padding: 20 }}><img width={300} src={preview} /></div>
-				// 			</div>}
-				// 		</div>
-				// 		<div label="YOLOV5 Model">
-				// 			After 'while, <em>Crocodile</em>!
-				// 		</div>
-				// 	</Tabs>
-				// </div>
-				// <section>
-				// 	<h1> Welcome to Similarity Matching of Wafer Bin Maps</h1>
-				// 	<div style={{ textAlign: 'center' }}>
-				// 		<h1> Upload Wafer Image to detect Defect!</h1>
-				// 		<br />
-				// 		<Button variant="contained" component="label">
-				// 			Upload
-				// 			<input hidden accept="image/*" multiple type="file" onChange={selectFiles} />
-				// 		</Button>
-				// 	</div>
-				// 	{similarityData && similarityData.length && <div style={{ display: 'flex', background: 'white', margin: 20 }}>
-				// 		<div style={{ height: 400, width: '500px', margin: 20 }}><DataGrid
-				// 			rows={similarityData}
-				// 			columns={columns}
-				// 			pageSize={5}
-				// 			rowsPerPageOptions={[5]}
-				// 		/></div>
-				// 		<div style={{ marginTop: 50, padding: 20 }}><img width={300} src={preview} /></div>
-				// 	</div>}
-				// </section>
-
-
 				: (
 					<section>
-						<div style={{ textAlign: 'center', height: 500, width: 300 }}>
+						<h1 style={{ color: 'Black', textAlign: 'center' }}>Similarity Matching of Wafer Bin Map</h1>
+						<div style={{ textAlign: 'center', height: 700, backgroundImage: `url(${login_background})` }}>
 							<div className="center" style={{ textAlign: 'center', margin: 20 }}>
 								<p ref={errRef} className={errMsg ? "errmsg" :
 									"offscreen"} aria-live="assertive">{errMsg}</p>
-								<h1> Similarity Matching of Wafer Bin Map</h1>
-								<h3>Group 5</h3>
+								<h1> Login Here</h1>
 								<form onSubmit={handleSubmit}>
 									<div >
 										<label htmlFor="username" >Username </label>
