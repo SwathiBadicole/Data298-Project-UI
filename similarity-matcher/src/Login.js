@@ -26,6 +26,8 @@ import Divider from '@mui/material/Divider';
 import InboxIcon from '@mui/icons-material/Inbox';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import login_background from './BackGround Image/login_background.jpg'
+import Model from './BackGround Image/Model.jpg'
+
 
 
 
@@ -176,40 +178,52 @@ const Login = () => {
 	return (
 		<>
 			{success ?
-				<div style={{ display: 'flex' }}>
-					<div>Hello</div>
-					<div>
-						<Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
-							<Tabs value={value} onChange={handleChange} centered>
-								<Tab label="CNN Model" {...a11yProps(0)} />
-								<Tab label="YOLO V5 Model" />
-							</Tabs>
-						</Box>
-						<TabPanel value={value} index={0}>
-							<div style={{ textAlign: 'center' }}>
-								<h1> Upload Wafer Image to detect Defect!</h1>
-								<br />
-								<Button variant="contained" component="label">
-									Upload
-									<input hidden accept="image/*" multiple type="file" onChange={selectFiles} />
-								</Button>
-								{similarityData && similarityData.length && <div style={{ display: 'flex', background: 'white', margin: 20 }}>
-									<div style={{ height: 400, width: '500px', margin: 20 }}><DataGrid
-										rows={similarityData}
-										columns={columns}
-										pageSize={5}
-										rowsPerPageOptions={[5]}
-									/></div>
-									<div style={{ marginTop: 50, padding: 20 }}><img width={300} src={preview} /></div>
-								</div>}
-							</div>
-						</TabPanel>
-					</div>
+				<div>
+					<Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
+						<Tabs value={value} onChange={handleChange} centered>
+							<Tab label="CNN Model" {...a11yProps(0)} />
+							<Tab label="YOLO V5 Model" {...a11yProps(1)} />
+							<Tab label="About" {...a11yProps(2)} />
+						</Tabs>
+					</Box>
+					<TabPanel value={value} index={0}>
+						<h1 style={{ textAlign: 'Center', margin: 5 }}> Upload Wafer Image to detect Defect!</h1>
+						<div style={{
+							textAlign: 'center', backgroundImage: `url(${Model})`, backgroundSize: 'cover',
+							overflow: 'hidden', backgroundRepeat: 'no-repeat',
+							backgroundPosition: 'center', height: 700
+						}}>
+							<br />
+							<Button variant="contained" component="label">
+								Upload
+								<input hidden accept="image/*" multiple type="file" onChange={selectFiles} />
+							</Button>
+							{similarityData && similarityData.length && <div style={{ display: 'flex', background: 'white', margin: 20 }}>
+								<div style={{ height: 400, width: '500px', margin: 20 }}><DataGrid
+									rows={similarityData}
+									columns={columns}
+									pageSize={5}
+									rowsPerPageOptions={[5]}
+								/></div>
+								<div style={{ marginTop: 50, padding: 20 }}><img width={300} src={preview} /></div>
+							</div>}
+						</div>
+					</TabPanel>
+					<TabPanel value={value} index={2}>
+						<div style={{ textAlign: 'center' }}>
+							<text>Hello</text>
+						</div>
+					</TabPanel>
 				</div>
+
 				: (
 					<section>
 						<h1 style={{ color: 'Black', textAlign: 'center' }}>Similarity Matching of Wafer Bin Map</h1>
-						<div style={{ textAlign: 'center', height: 700, backgroundImage: `url(${login_background})` }}>
+						<div style={{
+							textAlign: 'center', height: 700, backgroundImage: `url(${login_background})`, backgroundSize: 'cover',
+							overflow: 'hidden', backgroundRepeat: 'no-repeat',
+							backgroundPosition: 'center'
+						}}>
 							<div className="center" style={{ textAlign: 'center', margin: 20 }}>
 								<p ref={errRef} className={errMsg ? "errmsg" :
 									"offscreen"} aria-live="assertive">{errMsg}</p>
