@@ -25,8 +25,10 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import InboxIcon from '@mui/icons-material/Inbox';
 import DraftsIcon from '@mui/icons-material/Drafts';
-import login_background from './BackGround Image/login_background.jpg'
-import Model from './BackGround Image/Model.jpg'
+import login_background from './BackGround Image/login_background.jpg';
+import Model from './BackGround Image/Model.jpg';
+import Yolo from './BackGround Image/Yolo.jpg';
+
 
 
 
@@ -184,6 +186,7 @@ const Login = () => {
 							<Tab label="CNN Model" {...a11yProps(0)} />
 							<Tab label="YOLO V5 Model" {...a11yProps(1)} />
 							<Tab label="About" {...a11yProps(2)} />
+							<Tab label="Data Collection" {...a11yProps(3)} />
 						</Tabs>
 					</Box>
 					<TabPanel value={value} index={0}>
@@ -194,11 +197,11 @@ const Login = () => {
 							backgroundPosition: 'center', height: 700
 						}}>
 							<br />
-							<Button variant="contained" component="label">
+							<Button variant="contained" component="label" style={{ margin: 10 }} >
 								Upload
 								<input hidden accept="image/*" multiple type="file" onChange={selectFiles} />
 							</Button>
-							{similarityData && similarityData.length && <div style={{ display: 'flex', background: 'white', margin: 20 }}>
+							{similarityData && similarityData.length && <div style={{ display: 'flex', background: 'white', margin: 'auto', width: '800px' }}>
 								<div style={{ height: 400, width: '500px', margin: 20 }}><DataGrid
 									rows={similarityData}
 									columns={columns}
@@ -209,10 +212,72 @@ const Login = () => {
 							</div>}
 						</div>
 					</TabPanel>
-					<TabPanel value={value} index={2}>
-						<div style={{ textAlign: 'center' }}>
-							<text>Hello</text>
+					<TabPanel value={value} index={1}>
+						<div style={{
+							textAlign: 'center', backgroundImage: `url(${Yolo})`, backgroundSize: 'cover',
+							overflow: 'hidden', backgroundRepeat: 'no-repeat',
+							backgroundPosition: 'center', height: 700
+						}}>
+							<h1>Hello</h1>
 						</div>
+					</TabPanel>
+					<TabPanel value={value} index={2} >
+						<div style={{ display: 'flex', textAlign: 'center', justifyContent: 'normal' }}>
+							<text>Wafers can be defined as thin slices of semiconductors
+								like silicon c-Si that have wide applications in integrated circuits,
+								solar cells, etc. Wafer manufacturing in the semiconductor industry
+								deals with many microfabrication processes like doping, ion implantation,
+								etching, photolithographic patterning, wafer dicing, packaging, etc.
+								Thereby making the entire process complicated and time-consuming.
+								Additionally, when wafer fabrication facilities are inspected
+								it is surprising to see that around 10% of the wafers will be
+								defective thereby making the yield optimization to be of
+								high importance in the semiconductor manufacturing industry.
+								Any spatial defect patterns in wafer maps represent a problem in
+								the manufacturing and testing process and are required to be identified.
+								Wafer bin map (WBM) represents specific failure patterns that aid in identifying
+								the faulty wafers thereby empowering the wafer manufacturing industry.
+								Industries can use our project or model to detect the defect of the wafer tp avoid any
+								interruptions to their research later.</text>
+						</div>
+					</TabPanel>
+					<TabPanel value={value} index={3}>
+						<div>
+
+							<p>
+								We collected a large amount of WBMs in a wafer manufacturing plant that was
+								made available publicly for the researchers. Through test probes,
+								these maps of wafer performance were generated based on electrical testing of
+								each die on the wafer. Our dataset was collected from two different sources:
+							</p>
+
+							<p>
+								Dataset MixedWM38:
+
+								This Dataset (Wafer Map) has around 38000 wafer maps, including 1 normal pattern,
+								8 single defect patterns, and 29 mixed defect patterns.
+								This dataset was helpful in assisting the research because more mixed-type defects
+								helped in determining the root cause of it.
+								The data file format is npz (file format by numpy to store array data using gzip)
+								and data size is around 2GB. There were two sets of arrays in the dataset.
+								‘Arr_0’ is the defect data of a mixed-type wafer map, 0 means ‘blank spot’,
+								1 represents ‘normal die’, and 2 represents ‘broken die’ that passed and failed
+								the electrical test respectively. The data (nparray) shape was (52, 52).
+							</p>
+
+							<p>
+								Dataset WM-811K
+
+								This public dataset is provided by MIR lab. There are a total of 811457 wafer maps
+								collected from 46,393 lots in real world fabrication.
+								Various single type defect patterns are available in this dataset like Center,
+								Donut, Edge-Loc, Edge-Ring, Loc, Random, Scratch, Near-full and none.
+								The datafile is in pickle format and data size is around 3GB.
+
+							</p>
+
+						</div>
+
 					</TabPanel>
 				</div>
 
