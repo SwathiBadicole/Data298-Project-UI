@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, session
 import os
 import logging
 import waferdefects
+import yolodefect
 import numpy as np
 import cv2
 from PIL import Image
@@ -40,7 +41,7 @@ def fileUpload():
     print("File:", file)
     destination="/".join([target, file.filename])
     print("destination:", destination)
-    file.save(destination)
+    # file.save(destination)
     print("after save:")
     session['uploadFilePath']=destination
     img= Image.open(destination, mode='r')
@@ -53,6 +54,36 @@ def fileUpload():
     response = jsonify(res)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
+
+@app.route('/check-yolov5', methods=['POST'])
+def fileUpload2():
+    logger.info("1 welcome to upload")
+    
+    target=os.path.join(os.getcwd(),'test_docs')
+    print("2 File:", target)
+    if not os.path.isdir(target):
+        os.mkdir(target)
+    logger.info("welcome to upload")
+    file = request.files['file'] 
+    print("File:", file)
+    destination="/".join([target, file.filename])
+    print("destination:", destination)
+    file.save(destination)
+    print("after save:")
+    session['uploadFilePath']=destination
+    img= Image.open(destination, mode='r')
+    img_rgb = img.convert('RGB')
+    img_rgb.show()
+    numpydata = np.asarray(img_rgb)
+    print("after from file", numpydata.shape)
+    res = yolodefect.yolo(numpydata)
+    print("After API Call:", res)
+    response = jsonify(res)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
+
 
 
 # if __name__ == "__main__":
