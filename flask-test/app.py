@@ -6,6 +6,9 @@ import yolodefect
 import numpy as np
 import cv2
 from PIL import Image
+import io
+from base64 import encodebytes
+import base64
 
 
 logging.basicConfig(level=logging.INFO)
@@ -23,7 +26,13 @@ app.secret_key = os.urandom(24)
 #     defects.predict_image()
 #     return {'accuracy': '30', 'defects': '10' }
 
-    
+def get_response_image(image_path):
+    pil_img = Image.open(image_path, mode='r') # reads the PIL image
+    byte_arr = io.BytesIO()
+    pil_img.save(byte_arr, format='PNG') # convert the PIL image to byte array
+    encoded_img = encodebytes(byte_arr.getvalue()).decode('ascii') # encode as base64
+    return encoded_img
+
 @app.route('/')
 def hello_world():
     return 'This is my first API call!'
@@ -75,12 +84,29 @@ def fileUpload2():
     img_rgb = img.convert('RGB')
     img_rgb.show()
     numpydata = np.asarray(img_rgb)
-    print("after from file", numpydata.shape)
-    res = yolodefect.yolo(numpydata)
+    print("after from file", img)
+    res = yolodefect.yolo(img)
     print("After API Call:", res)
-    response = jsonify(res)
+    np_array = np.array(res).astype(np.float32)
+    img2 =  Image.fromarray(np_array.astype("uint8"))
+    rawBytes = io.BytesIO()
+    img2.save(rawBytes, "JPEG")
+    rawBytes.seek(0)
+    img_base64 = base64.b64encode(rawBytes.read())
+    print("base64", img_base64)
+    print("converted", str(img_base64))
+    response = jsonify({'status':str(img_base64)})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
+
+
+
+    # encoded_img = get_response_image(res)
+    # response =  { 'Status' : 'Success', 'ImageBytes': encoded_img}
+    # print("Response", response)
+    # response = jsonify(res)
+    # res.headers.add('Access-Control-Allow-Origin', '*')
+    # return file
 
 
 

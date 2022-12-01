@@ -55,9 +55,10 @@ const Login = () => {
 	const [selectedFile, setSelectedFile] = useState(undefined);
 	const [selectedYoloFile, setSelectedYoloFile] = useState(undefined);
 	const [similarityData, setSimilarityData] = useState([]);
-	const [similarityYoloData, setSimilarityYoloData] = useState([]);
+	const [similarityYoloData, setSimilarityYoloData] = useState('');
 
 	const [preview, setPreview] = useState()
+	const [yolopreview, setYoloPreview] = useState()
 	const [value, setValue] = useState(0);
 
 	useEffect(() => {
@@ -72,6 +73,21 @@ const Login = () => {
 		// free memory when ever this component is unmounted
 		return () => URL.revokeObjectURL(objectUrl)
 	}, [selectedFile])
+
+	useEffect(() => {
+		if (!selectedYoloFile) {
+			setYoloPreview(undefined)
+			return
+		}
+
+		const objectUrl = URL.createObjectURL(selectedYoloFile)
+		setYoloPreview(objectUrl)
+
+		// free memory when ever this component is unmounted
+		return () => URL.revokeObjectURL(objectUrl)
+	}, [selectedYoloFile])
+
+
 	const uploadFile = (file) => {
 
 		const data = new FormData();
@@ -101,7 +117,7 @@ const Login = () => {
 			response.json().then((body) => {
 				console.log("yolo", body);
 
-				setYoloSimilarityData(getTopFive(body));
+				setSimilarityYoloData(body.status.substring(2, body.status.length - 1));
 				//this.setState({ imageURL: `http://localhost:8000/${body.file}` });
 			});
 		});
@@ -184,7 +200,7 @@ const Login = () => {
 			'aria-controls': `simple-tabpanel-${index}`,
 		};
 	}
-
+	console.log("similarityYoloData ", similarityYoloData)
 	return (
 		<div style={{
 			backgroundColor: '#0b60ab',
@@ -243,7 +259,12 @@ const Login = () => {
 									Upload
 									<input hidden accept="image/*" multiple type="file" onChange={selectYoloFiles} />
 								</Button>
-								{similarityData && similarityData.length && <div style={{ display: 'flex', background: 'white', margin: 'auto', width: '800px' }}>
+								<div style={{ display: 'flex', background: 'white', textAlign: 'center', width: 'fit-content', margin: 'auto' }} >
+									{similarityYoloData && <img style={{ height: '400px', width: '400px', margin: 20 }} src={"data:image/png;base64, " + similarityYoloData}></img>
+									}
+									<div style={{ padding: 20 }}><img width={300} src={yolopreview} /></div>
+								</div>
+								{/* {similarityData && similarityData.length && <div style={{ display: 'flex', background: 'white', margin: 'auto', width: '800px' }}>
 									<div style={{ height: 400, width: '500px', margin: 20 }}><DataGrid
 										rows={similarityData}
 										columns={columns}
@@ -251,11 +272,11 @@ const Login = () => {
 										rowsPerPageOptions={[5]}
 									/></div>
 									<div style={{ marginTop: 50, padding: 20 }}><img width={300} src={preview} /></div>
-								</div>}
+								</div>} */}
 							</div>
 						</TabPanel>
 						<TabPanel value={value} index={2} >
-							<div style={{ display: 'flex', textAlign: 'center', justifyContent: 'normal', backgroundColor: 'whitesmoke' }}>
+							<div style={{ display: 'flex', textAlign: 'left', fontFamily: 'cambria', backgroundColor: 'whitesmoke' }}>
 								<p>Wafers can be defined as thin slices of semiconductors
 									like silicon c-Si that have wide applications in integrated circuits,
 									solar cells, etc. Wafer manufacturing in the semiconductor industry
@@ -277,7 +298,7 @@ const Login = () => {
 							</div>
 						</TabPanel>
 						<TabPanel value={value} index={3}>
-							<div style={{ backgroundColor: 'whitesmoke' }}>
+							<div style={{ backgroundColor: 'whitesmoke', fontFamily: 'cambria' }}>
 
 								<p>
 									We collected a large amount of WBMs in a wafer manufacturing plant that was
